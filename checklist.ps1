@@ -1,9 +1,9 @@
 ﻿# Date format for email subject
 $date=            Get-Date -format "yyyy_MM_dd"
 #SMTP server ip
-$smtpip= 		  "1.2.3.4"
+$smtpip=          "1.2.3.4"
 # Email subject
-$sub=			  "Checklista MDT dla serwera "+$env:COMPUTERNAME+" z dnia "+$date+""
+$sub=             "Checklista MDT dla serwera "+$env:COMPUTERNAME+" z dnia "+$date+""
 
 # Activation status
 $aktywacja=       Get-Registration $env:COMPUTERNAME
