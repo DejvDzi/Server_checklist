@@ -1,6 +1,6 @@
 ﻿# Date format for email subject
 $date=            Get-Date -format "yyyy_MM_dd"
-#SMTP server ip
+# SMTP server ip
 $smtpip=          "1.2.3.4"
 # Email subject
 $sub=             "Checklista MDT dla serwera "+$env:COMPUTERNAME+" z dnia "+$date+""
@@ -18,7 +18,7 @@ $shadow=          Get-WMIObject Win32_ShadowStorage | Select-Object  @{n=’GB�
 # IIS status
 $iis=             Get-Websitestate | Select-object -ExpandProperty value
 # Show domain users in local group Administrators
-$adminilokalni=   net localgroup Administrators | ? {$_ -match 'EC'} 
+$local_admins=    net localgroup Administrators | ? {$_ -match 'EC'} 
 # Check region settings
 $region=          Get-culture | select -ExpandProperty displayname
 # Check NIC Teaming
@@ -38,7 +38,7 @@ $mapowanie =      cacls d:eurocash | ? {$_ -match $env:COMPUTERNAME}
 # Get status for waiter task
 $waiter_schedule= Get-ScheduledTask | ? {$_ -match 'waiter'} | Select-Object -ExpandProperty State
 # Get status for cliner task
-$czyszczenie_logow= Get-ScheduledTask | ? {$_ -match 'czyszczenie'} | Select-Object -ExpandProperty State
+$log_clean=       Get-ScheduledTask | ? {$_ -match 'czyszczenie'} | Select-Object -ExpandProperty State
 # Get filezilla server status
 $filezilla=       Get-Service "FileZilla Server" | select -ExpandProperty status
 # Show IP
@@ -129,30 +129,30 @@ $body_html+="<tr><td style='width: 291px; height:9px'>Status waitera:(Running)</
 $body_html+="<tr><td style='width: 291px; height:9px'>RDP:(OK)</td><td> $rdpstat </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>IIE ESC:(OK)</td><td> $ieesc </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Status IIS:(Started)</td><td> $iis </td></tr>"
-$body_html+="<tr><td style='width: 291px; height:9px'>Task czyszczenie logów:(Ready)</td><td> $czyszczenie_logow </td></tr>"
+$body_html+="<tr><td style='width: 291px; height:9px'>Task czyszczenie logów:(Ready)</td><td> $log_clean </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Task waiter Schedule:(Ready)</td><td> $waiter_schedule </td></tr>"
-$body_html+="<tr><td style='width: 291px; height:9px'>Serwer NTP:(ntp.ec.local)</td><td> $ntp </td></tr>"
+$body_html+="<tr><td style='width: 291px; height:9px'>Serwer NTP:(ntp.pl)</td><td> $ntp </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Windows Update:(aktualny)</td><td> $upd </td></tr>"
-$body_html+="<tr><td style='width: 291px; height:9px'>Grupy lokalnych adminów: (EC\GRP_IT_CC_Server_Admins)</td><td> $adminilokalni </td></tr>"
-$body_html+="<tr><td style='width: 291px; height:9px'>Locsvr:(D:\Eurocash\locsvr)</td><td> $env:locsvr</td></tr>"
+$body_html+="<tr><td style='width: 291px; height:9px'>Grupy lokalnych adminów: (EC\GRP_IT_CC_Server_Admins)</td><td> $local_admins </td></tr>"
+$body_html+="<tr><td style='width: 291px; height:9px'>Locsvr:(D:\svr)</td><td> $env:locsvr</td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Nrhurt:(numer_hurtowni)</td><td> $env:nrhurt</td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Region:(Poland)</td><td> $region </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>NIC_team:(local lub local_team)</td><td> $nic </td></tr>"
-$body_html+="<tr><td style='width: 291px; height:9px'>SNMP IP:(10.65.4.15)</td><td> $snmp_ip </td></tr>"
+$body_html+="<tr><td style='width: 291px; height:9px'>SNMP IP:(xx.xx.xx.xx)</td><td> $snmp_ip </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>SNMP Community:(hurtownia_cc)</td><td> $snmp_community </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Czas bezczynności:(5)</td><td> $min </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Status ESET:(Running)</td><td> $ekrn </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Status Win update:(Off)</td><td> $WU </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Status Filezilla:(Running)</td><td> $filezilla </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Maksymalny rozmiar SchadowCopy:(50gb)</td><td> $shadow GB </td></tr>"
-$body_html+="<tr><td style='width: 291px; height:9px'>Mapowanie:(D:\Eurocash i mapowanie)</td><td> $mapowanie </td></tr>"
+$body_html+="<tr><td style='width: 291px; height:9px'>Mapowanie:(D:\Ec i mapowanie)</td><td> $mapowanie </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Status licencji windows:(Aktywowany)</td><td> $aktywacja </td></tr>"
 $body_html+="</tbody></table></center>"
 $body_html+="<center><table><tbody>"
 $body_html+="<tr><th style='width: 291px; height:9px'>Do zrobienia</th></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Dodaj hasła do portalu <a href='http://hasla'>hasla</a></td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Ustaw IP dla karty teamingowej</td></tr>"
-$body_html+="<tr><td style='width: 291px; height:9px'>Przenieś serwer do OU Workstations/Servers</td></tr>"
+$body_html+="<tr><td style='width: 291px; height:9px'>Przenieś serwer do OU Servers</td></tr>"
 $body_html+="</tbody></table></center></body></html>"
 
 # End
