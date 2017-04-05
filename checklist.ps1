@@ -144,7 +144,7 @@ $body_html+="<tr><td style='width: 291px; height:9px'>Czas bezczynności:(5)</td
 $body_html+="<tr><td style='width: 291px; height:9px'>Status ESET:(Running)</td><td> $ekrn </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Status Win update:(Off)</td><td> $WU </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Status Filezilla:(Running)</td><td> $filezilla </td></tr>"
-$body_html+="<tr><td style='width: 291px; height:9px'>Maksymalny rozmiar SchadowCopy:(50gb)</td><td> $shadow GB </td></tr>"
+$body_html+="<tr><td style='width: 291px; height:9px'>Maksymalny rozmiar ShadowCopy:(50gb)</td><td> $shadow GB </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Mapowanie:(D:\Ec i mapowanie)</td><td> $mapowanie </td></tr>"
 $body_html+="<tr><td style='width: 291px; height:9px'>Status licencji windows:(Aktywowany)</td><td> $aktywacja </td></tr>"
 $body_html+="</tbody></table></center>"
